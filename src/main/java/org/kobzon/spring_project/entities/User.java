@@ -1,5 +1,7 @@
 package org.kobzon.spring_project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -7,11 +9,17 @@ import java.util.List;
 public class User {
 
     @Id
+    @GeneratedValue
     private Long Id;
     private String username;
+
+    @JsonIgnore
     private String password;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Role> roles;
+
+    User() {}
 
     public User(String username, String password, List<Role> roles) {
         this.username = username;

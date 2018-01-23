@@ -1,8 +1,11 @@
 package org.kobzon.spring_project.controllers;
 
+import org.kobzon.spring_project.config.CustomUserDetails;
 import org.kobzon.spring_project.entities.Post;
 import org.kobzon.spring_project.services.PostService;
+import org.kobzon.spring_project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +20,9 @@ public class BlogController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping(value = "/")
     public String index() {
         return "index";
@@ -28,9 +34,12 @@ public class BlogController {
     }
 
     @PostMapping(value = "/post")
-    public void publishPost(@RequestBody Post post){
+    public String publishPost(@RequestBody Post post){
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (post.getDateCreated() == null)
             post.setDateCreated(new Date());
+        post.setCreator(userService.getUser(userDetails.getUsername()));
         postService.insert(post);
+        return "Post was publish";
     }
 }
