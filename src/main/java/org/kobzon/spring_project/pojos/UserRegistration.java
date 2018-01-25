@@ -12,7 +12,6 @@ public class UserRegistration {
     public UserRegistration(String username, String password, String passwordConfirmation) {
         this.username = username;
         this.password = password;
-        this.passwordConfirmation = passwordConfirmation;
     }
 
     public String getUsername() {
