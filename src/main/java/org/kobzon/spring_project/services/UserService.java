@@ -1,5 +1,6 @@
 package org.kobzon.spring_project.services;
 
+import org.kobzon.spring_project.entities.Post;
 import org.kobzon.spring_project.entities.User;
 import org.kobzon.spring_project.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -15,7 +18,9 @@ public class UserService {
     private UserRepository repo;
 
     @Bean
-    public PasswordEncoder getPasswordEncoder() { return new BCryptPasswordEncoder(); }
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     public void save (User user) {
         user.setPassword(getPasswordEncoder().encode(user.getPassword()));

@@ -18,11 +18,10 @@ public class UserController {
 
     @PostMapping(value = "/register")
     public String register(@RequestBody UserRegistration userRegistration) {
-        if (!userRegistration.getPassword().equals(userRegistration.getPasswordConfirmation()))
-            return "Password do not match!";
-        else if (userService.getUser(userRegistration.getUsername()) != null)
+        if (userService.getUser(userRegistration.getUsername()) != null)
             return "User already exists";
         userService.save(new User(userRegistration.getUsername(), userRegistration.getPassword(), Arrays.asList(new Role("USER"))));
         return "User created";
     }
+
 }

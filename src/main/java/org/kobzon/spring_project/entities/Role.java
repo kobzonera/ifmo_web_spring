@@ -1,32 +1,22 @@
 package org.kobzon.spring_project.entities;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document
 public class Role {
 
-    @Id
-    @GeneratedValue
-    private Long Id;
-
-    String name;
+    @org.springframework.data.annotation.Id
+    private String Id;
+    private String name;
 
     Role() {}
 
-    public Role(String name) {
+    public Role(String name) { this.name = name; }
 
-        this.name = name;
-    }
+    public String getName() { return name; }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 
 }

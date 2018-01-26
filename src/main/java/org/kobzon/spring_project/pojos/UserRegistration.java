@@ -4,15 +4,13 @@ public class UserRegistration {
 
     private String username;
     private String password;
-    private String passwordConfirmation;
 
     public UserRegistration() {
     }
 
-    public UserRegistration(String username, String password, String passwordConfirmation) {
+    public UserRegistration(String username, String password) {
         this.username = username;
         this.password = password;
-        this.passwordConfirmation = passwordConfirmation;
     }
 
     public String getUsername() {
@@ -31,11 +29,4 @@ public class UserRegistration {
         this.password = password;
     }
 
-    public String getPasswordConfirmation() {
-        return passwordConfirmation;
-    }
-
-    public void setPasswordConfirmation(String passwordConfirmation) {
-        this.passwordConfirmation = passwordConfirmation;
-    }
 }

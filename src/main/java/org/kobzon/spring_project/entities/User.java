@@ -1,23 +1,21 @@
 package org.kobzon.spring_project.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Document
 public class User {
 
-    @Id
-    @GeneratedValue
-    private Long Id;
+    @org.springframework.data.annotation.Id
+    private String Id;
     private String username;
-
     @JsonIgnore
     private String password;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Role> roles;
+    private List<Post> posts;
 
     User() {}
 
@@ -27,28 +25,23 @@ public class User {
         this.roles = roles;
     }
 
+    public String getId() { return Id; }
 
-    public String getUsername() {
-        return username;
-    }
+    public void setId(String id) { Id = id; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public String getUsername() { return username; }
 
-    public String getPassword() {
-        return password;
-    }
+    public void setUsername(String username) { this.username = username; }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String getPassword() { return password; }
 
-    public List<Role> getRoles() {
-        return roles;
-    }
+    public void setPassword(String password) { this.password = password; }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
+    public List<Role> getRoles() {return roles; }
+
+    public void setRoles(List<Role> roles) {this.roles = roles; }
+
+    public List<Post> getPosts() {return posts; }
+
+    public void setPosts(List<Post> posts) { this.posts = posts; }
 }

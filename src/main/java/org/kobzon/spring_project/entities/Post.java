@@ -1,32 +1,34 @@
 package org.kobzon.spring_project.entities;
 
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Date;
 
-@Entity
+@Document
 public class Post {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    @org.springframework.data.annotation.Id
+    private String Id;
     private String title;
     private String body;
     private Date dateCreated;
-
-    @ManyToOne
     private User creator;
 
     public Post() {
     }
 
-    public Long getId() {
-        return id;
+    public User getCreator() {return creator; }
+
+    public void setCreator(User creator) { this.creator = creator; }
+
+    public String getId() {
+        return Id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(String id) {
+        this.Id = id;
     }
 
     public String getTitle() {
@@ -51,13 +53,5 @@ public class Post {
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
-    }
-
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
     }
 }

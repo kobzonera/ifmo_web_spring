@@ -1,10 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>Index Page</title>
-</head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header('Blog index')" />
 <body>
-<h1>Index Page</h1>
+<div id="root">
+    <div th:replace="fragments/nav :: nav"></div>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <h1>My blog</h1>
+                <ul>
+                    <li v-for="post in posts">
+                        <h3><a :href="getLink(post)">{{post.title}}</a></h3>
+                        <h6>Created by : {{post.creator.username}}</h6>
+                        <p>{{post.body}}</p>
+                        <hr />
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+<div th:replace="fragments/footer :: foot"></div>
+
+<script>
+    var app = new Vue({
+        el: '#root',
+        data : {posts: []},
+        mounted(){
+            this.fetchPosts();
+        },
+        methods: {
+            fetchPosts(){
+                axios.get("/posts").then(function(response){
+                    this.posts = response.data;
+                }.bind(this));
+            },
+            getLink(post){
+                return '/post/' + post.id;
+            }
+        }
+    });
+</script>
+<script>
+    const styles = new docx.Styles();
+    styles.createParagraphStyle('Heading1', 'Heading 1')
+        .basedOn("Normal")
+        .next("Normal")
+        .quickFormat()
+        .size(28)
+        .bold()
+        .italics()
+        .spacing({after: 120});
+
+    styles.createParagraphStyle('Heading2', 'Heading 2')
+        .basedOn("Normal")
+        .next("Normal")
+        .quickFormat()
+        .size(26)
+        .bold()
+        .underline('double', 'FF0000')
+        .spacing({before: 240, after: 120});
+
+    styles.createParagraphStyle('aside', 'Aside')
+        .basedOn('Normal')
+        .next('Normal')
+        .color('999999')
+        .italics()
+        .indent(720)
+        .spacing({line: 276});
+
+    styles.createParagraphStyle('wellSpaced', 'Well Spaced')
+        .basedOn('Normal')
+        .spacing({line: 276, before: 20 * 72 * .1, after: 20 * 72 * .05});
+
+    styles.createParagraphStyle('ListParagraph', 'List Paragraph')
+        .quickFormat()
+        .basedOn('Normal');
+
+
+    const numbering = new docx.Numbering();
+    const numberedAbstract = numbering.createAbstractNumbering();
+    numberedAbstract.createLevel(0, "lowerLetter", "%1)", "left");
+
+    const doc = new docx.Document({
+        creator: 'Clippy',
+        title: 'Sample Document',
+        description: 'A brief example of using docx',
+    });
+
+    doc.createParagraph('Test heading1, bold and italicized').heading1();
+    doc.createParagraph('Some simple content');
+    doc.createParagraph('Test heading2 with double red underline').heading2();
+
+    const letterNumbering = numbering.createConcreteNumbering(numberedAbstract);
+    ['Option1', 'Option 2', 'Option 3'].forEach((opt) =>
+        doc.createParagraph(opt).setNumbering(letterNumbering, 0)
+    );
+
+    doc.createParagraph()
+        .createTextRun('Some monospaced content')
+        .font('Monospace');
+
+    doc.createParagraph('An aside, in light gray italics and indented').style('aside');
+    doc.createParagraph('This is normal, but well-spaced text').style('wellSpaced');
+    doc.createParagraph('This is normal');
+
+
+    const exporter = new docx.LocalPacker(doc, styles, undefined, numbering);
+    exporter.pack('test.docx');
+</script>
 </html>
