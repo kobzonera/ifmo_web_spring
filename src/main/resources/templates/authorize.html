@@ -44,11 +44,12 @@
                 axios({
                     method: 'post',
                     url: 'oauth/token',
-                    auth: {username: 'spring_project_kobzon', password: 'kobzon'},
+                    auth: {username: 'my-trusted-client', password: 'kobzon'},
                     headers: {"Content-type": "application/x-www-form-urlencoded; charset=utf-8"},
                     data: params
                 }).then(function (response) {
                         set_cookie("access_token", response.data.access_token);
+                        alert("Authentication succesfully");
                         document.location.replace("/");
                     },
                     function (response) {
@@ -61,7 +62,7 @@
                     url: 'register',
                     data: {username: this.username, password: this.password}
                 }).then(function (response) {
-                    document.location.replace("/login");
+                    document.location.replace("/authorize");
                     alert("Register successfully");
                 }, function (response) {
                     alert("Register error");

@@ -18,12 +18,8 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public Post getPost(String id) {
-        return postRepository.findOne(id);
-    }
-
-    public List<Post> getAllPosts(){
-        return postRepository.findAll();
+    public Post getPost(String title) {
+        return postRepository.findOne(title);
     }
 
     public List<Post> findByUserUsername(User user){
