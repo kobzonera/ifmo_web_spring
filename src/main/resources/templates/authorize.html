@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header('Authorize')"/>
+<body>
+<div id="root">
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div class="six columns offset-by-three">
+                    <label for="username">Username</label>
+                    <input v-model="username" class="u-full-width" type="text" id="username"/>
+                    <label for="password">Password</label>
+                    <input v-model="password" class="u-full-width" type="password" id="password"/>
+                    <div class="row">
+                        <div class="six columns">
+                            <input class="u-full-width button-primary" type="submit" v-on:click="register" value="Sign Up" />
+                        </div>
+                        <div class="six columns">
+                            <input class="u-full-width button-primary" type="submit" v-on:click="login" value="Sign In" />
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<div th:replace="fragments/footer :: foot"></div>
+<script>
+    var app = new Vue({
+        el: '#root',
+        data: {
+            username: '',
+            password: '',
+        },
+        methods: {
+            login() {
+                var params = new URLSearchParams();
+                params.append('grant_type', 'password');
+                params.append('username', this.username);
+                params.append('password', this.password);
+                axios({
+                    method: 'post',
+                    url: 'oauth/token',
+                    auth: {username: 'spring_project_kobzon', password: 'kobzon'},
+                    headers: {"Content-type": "application/x-www-form-urlencoded; charset=utf-8"},
+                    data: params
+                }).then(function (response) {
+                        set_cookie("access_token", response.data.access_token);
+                        document.location.replace("/");
+                    },
+                    function (response) {
+                        alert("Authentication error");
+                    })
+            },
+            register() {
+                axios({
+                    method: 'post',
+                    url: 'register',
+                    data: {username: this.username, password: this.password}
+                }).then(function (response) {
+                    document.location.replace("/login");
+                    alert("Register successfully");
+                }, function (response) {
+                    alert("Register error");
+                })
+            }
+        }
+    });
+</script>
+</html>

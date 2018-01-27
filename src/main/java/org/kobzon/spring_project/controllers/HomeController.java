@@ -5,8 +5,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-    @GetMapping(value="/")
-    public String index(){
-        return "index";
+
+    @GetMapping(value= {"/", "/authorize" })
+    public String authorize(){
+        return "authorize";
+    }
+
+    @GetMapping(value="post/{id}")
+    public String singlePost(){
+        return "post";
     }
 }

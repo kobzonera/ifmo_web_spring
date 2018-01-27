@@ -26,10 +26,6 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public List<Post> findByUserId(User user){
-        return postRepository.findByCreatorId(user.getId());
-    }
-
     public List<Post> findByUserUsername(User user){
         return postRepository.findByCreatorUsername(user.getUsername());
     }
