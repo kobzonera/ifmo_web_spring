@@ -6,7 +6,10 @@
     <div class="container">
         <div class="row">
             <div class="twelve columns">
-                <div class="six columns offset-by-three">
+                <div class="six columns offset-by-three" v-show="isLoggedIn">
+                <input class="u-full-width button-primary" type="submit" v-on:click="logout" value="LogOut" />
+                </div>
+                <div class="six columns offset-by-three" v-show="!isLoggedIn">
                     <label for="username">Username</label>
                     <input v-model="username" class="u-full-width" type="text" id="username"/>
                     <label for="password">Password</label>
@@ -26,14 +29,20 @@
         </div>
     </div>
 </div>
-</body>
 <div th:replace="fragments/footer :: foot"></div>
+
 <script>
     var app = new Vue({
         el: '#root',
         data: {
             username: '',
             password: '',
+            isLoggedIn: false
+        },
+        mounted() {
+            if(getCookie("access_token")){
+               this.isLoggedIn = true;
+            }
         },
         methods: {
             login() {
@@ -50,11 +59,10 @@
                 }).then(function (response) {
                         set_cookie("access_token", response.data.access_token);
                         alert("Authentication succesfully");
-                        document.location.replace("/");
-                    },
-                    function (response) {
+                        document.location.replace("/authorize")
+                    }).catch(function(error){
                         alert("Authentication error");
-                    })
+                })
             },
             register() {
                 axios({
@@ -63,12 +71,19 @@
                     data: {username: this.username, password: this.password}
                 }).then(function (response) {
                     document.location.replace("/authorize");
-                    alert("Register successfully");
-                }, function (response) {
-                    alert("Register error");
-                })
+                    alert(response.data);
+                    }
+                )
+            },
+            logout(){
+                axios.get("/logout?access_token=" + getCookie("access_token"))
+                    .then(function(response){
+                        this.isLoggedIn = false;
+                        delete_cookie("access_token")
+                    }.bind(this))
             }
         }
     });
 </script>
+</body>
 </html>

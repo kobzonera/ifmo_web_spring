@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, String> {
-    List<Post> findByCreatorUsername(String username);
+public interface PostRepository extends JpaRepository<Post,Long>{
+    List<Post> findByCreatorId(Long id);
 }

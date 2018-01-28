@@ -9,8 +9,8 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String username;
 
     @JsonIgnore
@@ -27,6 +27,13 @@ public class User {
         this.roles = roles;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;

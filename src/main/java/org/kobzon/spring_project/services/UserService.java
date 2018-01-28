@@ -12,19 +12,19 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     @Autowired
-    private UserRepository repo;
+    private UserRepository userRepository;
 
     @Bean
-    public PasswordEncoder getPasswordEncoder() {
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
-    public void save (User user) {
-        user.setPassword(getPasswordEncoder().encode(user.getPassword()));
-        repo.save(user);
+    public void save(User user){
+        user.setPassword(passwordEncoder().encode(user.getPassword()));
+        userRepository.save(user);
     }
 
-    public User findByUsername(String username) {
-        return repo.findByUsername(username);
+    public User getUser(String username){
+        return userRepository.findByUsername(username);
     }
 }
