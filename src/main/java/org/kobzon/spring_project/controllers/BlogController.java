@@ -59,6 +59,10 @@ public class BlogController {
 
     @DeleteMapping(value = "/post/{id}")
     public boolean deletePost(@PathVariable Long id){
-        return postService.deletePost(id);
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (userDetails.getAuthorities().contains("ROLE_ADMIN") || userDetails.getUsername().equals(postService.getPost(id).getCreator().getUsername())) {
+            return postService.deletePost(id);
+        }
+        else return false;
     }
 }

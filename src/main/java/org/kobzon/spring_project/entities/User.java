@@ -19,7 +19,7 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Role> roles;
 
-    User() {}
+    public User() {}
 
     public User(String username, String password, List<Role> roles) {
         this.username = username;

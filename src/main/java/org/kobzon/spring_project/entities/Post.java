@@ -1,8 +1,5 @@
 package org.kobzon.spring_project.entities;
 
-
-import org.kobzon.spring_project.entities.User;
-
 import javax.persistence.*;
 import java.util.Date;
 
