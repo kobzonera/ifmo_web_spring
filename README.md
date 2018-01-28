@@ -58,7 +58,7 @@ DELETE запрос /post/{id} - удаление записи (доступ т�
 * Spring Boot
 * Spring Security (mongodb/mysql)
 * Spring Data (OAUTH2 Server)
-* VueJS (Cookies)
+* VueJS + Axios
 * SkeletonCSS (AuthForm)
 
 ## Authors
