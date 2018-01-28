@@ -41,20 +41,12 @@ public class BlogController {
 
     @GetMapping(value="/post/{id}")
     public Post getPostById(@PathVariable Long id){
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (userDetails.getAuthorities().contains("ROLE_ADMIN") || userDetails.getUsername().equals(postService.getPost(id).getCreator().getUsername())) {
-            return postService.getPost(id);
-        }
-        else return null;
+        return postService.getPost(id);
     }
 
     @GetMapping(value="/posts/{username}")
     public List<Post> postsByUser(@PathVariable String username){
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (userDetails.getAuthorities().contains("ROLE_ADMIN") || userDetails.getUsername().equals(userService.getUser(username).getUsername())) {
-            return postService.findByUser(userService.getUser(username));
-        }
-        else return null;
+        return postService.findByUser(userService.getUser(username));
     }
 
     @DeleteMapping(value = "/post/{id}")
